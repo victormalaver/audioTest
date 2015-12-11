@@ -75,10 +75,6 @@
     background-color: #fcfcfc;
 }
 
-#kendoUiMobileApp form .form-content li p {
-    margin: 0;
-}
-
 #kendoUiMobileApp .icon-group .app-icon,
 #kendoUiMobileApp .icon-group .app-details {
     display: table-cell;
@@ -109,6 +105,58 @@
     margin-top: 0.5em;
 }
 
+
+/* START_CUSTOM_CODE_kendoUiMobileApp */
+
+.km-flat .km-view .km-navbar {
+    background-color: rgb(0, 83, 179);
+}
+.km-flat .km-view .km-navbar .km-button.km-state-active {
+    background-color: rgb(183, 91, 0);
+}
+.km-flat .km-view .km-navbar .km-button {
+    background-color: rgb(239, 122, 29);
+}
+.km-flat .km-view .km-navbar .km-view-title > * {
+    color: rgb(255, 255, 255);
+}
+.km-flat .km-view .km-navbar .km-button .km-text {
+    color: rgb(255, 255, 255);
+}
+.km-flat .km-view .km-navbar .km-view-title > * .km-button.km-state-active {
+    background-color: rgb(239, 122, 29);
+}
+.km-flat .km-view .km-navbar .km-view-title > * .km-button {
+    background-color: rgb(183, 91, 0);
+}
+.km-flat .km-view .km-content .km-button.km-state-active {
+    background-color: rgb(239, 122, 29);
+}
+.km-flat .km-view .km-content .km-list .km-state-active .km-listview-link {
+    background-color: rgb(239, 122, 29);
+}
+.km-flat .km-view .km-tabstrip .km-button.km-state-active {
+    background-color: rgb(239, 122, 29);
+}
+.km-flat .km-view .km-tabstrip .km-button {
+    background-color: rgb(0, 83, 179);
+}
+.km-flat .km-view .km-content .km-list > li .km-switch .km-switch-container .km-switch-handle .km-switch-label-off {
+    color: rgb(255, 255, 255);
+}
+.km-flat .km-view .km-content .km-list > li .km-switch .km-switch-container .km-switch-handle .km-switch-label-on {
+    color: rgb(255, 255, 255);
+}
+.km-flat .km-view .km-content .km-list > li .km-switch .km-switch-container {
+    background-color: rgb(239, 122, 29);
+}
+
+
+/* END_CUSTOM_CODE_kendoUiMobileApp */
+
+
+/*Fix navigation labels*/
+
 #kendoUiMobileApp #navigation-container.km-tabstrip .km-button {
     vertical-align: top;
 }
@@ -119,19 +167,11 @@
 }
 
 #kendoUiMobileApp #navigation-container .active {
-    background: #10c4b2;
+    /*background: #10c4b2;*/
+    background: #EF7A1D;
     color: #fff;
 }
 
 #kendoUiMobileApp #navigation-container .active:after {
     color: #fff;
 }
-
-
-/* START_CUSTOM_CODE_kendoUiMobileApp */
-
-
-/* Add custom code here. For more information about custom code, see http://docs.telerik.com/platform/screenbuilder/troubleshooting/how-to-keep-custom-code-changes */
-
-
-/* END_CUSTOM_CODE_kendoUiMobileApp */

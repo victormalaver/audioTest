@@ -3,17 +3,40 @@
   "views": [
     {
       "type": "kendo-ui-mobile:view",
-      "name": "home",
+      "name": "homeView",
       "components": [],
       "title": "Home View",
       "addToNavigation": true,
       "icon": "home"
+    },
+    {
+      "type": "kendo-ui-mobile:view",
+      "name": "funcionalidad01",
+      "components": [],
+      "title": "funcionalidad 01",
+      "addToNavigation": true,
+      "icon": "play"
+    },
+    {
+      "type": "kendo-ui-mobile:view",
+      "name": "funcionalidad02",
+      "components": [],
+      "title": "funcionalidad 02",
+      "addToNavigation": true,
+      "icon": "play"
+    },
+    {
+      "type": "kendo-ui-mobile:view",
+      "name": "funcionalidad03",
+      "components": [],
+      "title": "funcionalidad 03",
+      "addToNavigation": true,
+      "icon": "play"
     }
   ],
   "dataProviders": [],
   "name": "kendoUiMobileApp",
-  "navigation": "tabstrip",
-  "view": "home",
-  "transition": "slide",
+  "navigation": "drawer",
+  "view": "homeView",
   "skin": "flat"
 }

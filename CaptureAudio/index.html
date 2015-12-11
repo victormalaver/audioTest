@@ -4,48 +4,71 @@
 <head>
     <title></title>
     <meta charset="utf-8">
-    <link href="kendo/styles/kendo.mobile.all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://kendo.cdn.telerik.com/2015.3.930/styles/kendo.common.min.css">
+    <link rel="stylesheet" href="http://kendo.cdn.telerik.com/2015.3.930/styles/kendo.rtl.min.css">
+    <link rel="stylesheet" href="http://kendo.cdn.telerik.com/2015.3.930/styles/kendo.default.min.css">
+    <link rel="stylesheet" href="http://kendo.cdn.telerik.com/2015.3.930/styles/kendo.dataviz.min.css">
+    <link rel="stylesheet" href="http://kendo.cdn.telerik.com/2015.3.930/styles/kendo.dataviz.default.min.css">
+    <link href="bower_components/kendo-ui-appbuilder-core/styles/kendo.mobile.all.min.css" rel="stylesheet">
     <link href="styles/main.css" rel="stylesheet">
-
+    <link href="styles/StyleSheet.css" rel="stylesheet">
+    <!--20151015 Bootstrap Standard 3.3.5-->
+    <link href="styles/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <!--20151015 Bootstrap Standard 3.3.5-->
+    <!-- cordova script (this will be a 404 during development if served with `grunt serve`) -->
     <script src="cordova.js"></script>
-    <script src="kendo/js/jquery.min.js"></script>
-    <script src="kendo/js/kendo.mobile.min.js"></script>
+    <script src="bower_components/kendo-ui-appbuilder-core/js/jquery.min.js"></script>
+    <!--<script src="bower_components/kendo-ui-appbuilder-core/js/kendo.mobile.min.js"></script> -->
+    <script src="bower_components/kendo-ui-appbuilder-core/js/kendo.all.min.js"></script>
+    <script src="bower_components/everlive/min/everlive.all.min.js"></script>
+    <script src="lib/progress/progress.all.min.js"></script>
     <script src="app.js"></script>
+	<script src="components/funcionalidad03/index.js"></script>
+	<script src="components/funcionalidad03/addVos.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 </head>
 
 <body id="kendoUiMobileApp">
-    <script src="components/home/index.js"></script>
+    <script src="components/funcionalidad03/index.js"></script>
+    <script src="components/funcionalidad03/addVos.js"></script>
+    <script src="components/homeView/index.js"></script>
     <div data-role="layout" data-id="main">
         <header data-role="header">
             <div data-role="navbar">
                 <span data-role="view-title"></span>
+                <a data-role="button" href="#appDrawer" data-rel="drawer" data-align="left" data-icon="drawer-button"></a>
             </div>
         </header>
-
         <!-- application views will be rendered here -->
-
-        <footer data-role="footer">
-            <div data-role="tabstrip" id="navigation-container">
-                <a href="components/home/view.html" data-icon="home">Home View</a>
-            </div>
-        </footer>
     </div>
-
     <div data-role="layout" data-id="main-nonav">
         <header data-role="header">
             <div data-role="navbar">
                 <span data-role="view-title"></span>
             </div>
         </header>
-
         <!-- application views will be rendered here -->
-
-        <footer data-role="footer">
+    </div>
+    <div id="appDrawer" data-role="drawer" data-title="">
+        <header data-role="header">
+            <div data-role="navbar">
+                <span data-role="view-title"></span>
+                <img class="logoBase" src="images/ausa.png" />
+            </div>
+        </header>
+        <ul id="navigation-container" data-role="listview">
+            <li><a href="components/funcionalidad03/view.html" data-icon="organize">funcionalidad 03</a>
+            </li>
+        </ul>
+        <footer>
+            <div class="footerUsuario">
+                Usuario: Lourdes Romero
+            </div>
         </footer>
     </div>
+    <!-- Alertas y Notificaciones -> id="notification" -->
+    <span id="notification"></span>
     <!-- START_CUSTOM_CODE_kendoUiMobileApp -->
-    <!-- Add custom code here. For more information about custom code, see http://docs.telerik.com/platform/screenbuilder/troubleshooting/how-to-keep-custom-code-changes -->
-
     <!-- END_CUSTOM_CODE_kendoUiMobileApp -->
 </body>
 

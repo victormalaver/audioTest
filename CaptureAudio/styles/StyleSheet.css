@@ -1,0 +1,80 @@
+.logoBase
+{
+    width: 43%;
+    background-color: white;
+    margin: 0px 0px -11px 0px;
+}
+
+.footerUsuario
+{
+    float: left;
+    padding: 30px 0px 0px 10px;
+    font-style: oblique;
+    font-weight: bold;
+}
+
+.AlertaTareas1
+{
+    /*Rojo*/
+    background-color: #f00 !important;
+    color: #FFFFFF;
+    /*border: black 1px solid;*/
+}
+
+.AlertaTareas2
+{
+    /*Naranja*/
+    background-color: #EF7A1D !important;
+    color: #FFFFFF;
+}
+
+#id2 , #id5 {
+    background-color: #EF7A1D !important;
+    color: #FFFFFF;
+}
+
+#id4 {
+   	background-color: #f00 !important;
+    color: #FFFFFF;
+}
+
+/*#tareas1 div {
+  	background-image: url(../images/grid.mobile.jpg) !important;
+    background-repeat: round !important;  
+}*/
+
+
+/* STYLE FUNCIONALIDAD 01*/
+    summary::-webkit-details-marker {
+    	display: none
+    }
+    
+    summary:before {
+    	background: red;
+      border-radius: 5px;
+      content: "+";
+      color: #fff;
+      font-size: 1.2em;
+      font-weight: bold;
+      margin: 0 10px 0 0;
+      padding-top: 1px;
+      padding-left: 1px;
+      padding-right: 2px;
+      padding-bottom: 2px;
+      text-align: center;
+    }
+    
+    details[open] summary:before {
+    	background: green;
+      border-radius: 5px;
+      content: "+";
+      color: #fff;
+      font-size: 1.2em;
+      font-weight: bold;
+      margin: 0 10px 0 0;
+      padding: 0;
+      padding-top: 1px;
+      padding-left: 1px;
+      padding-right: 2px;
+      padding-bottom: 2px;
+    }

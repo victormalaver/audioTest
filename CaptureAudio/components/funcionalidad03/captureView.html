@@ -1,0 +1,80 @@
+<!-- Fin Listado Tareas -->
+<!-- Acción Tarea: Add Insert Delete -->
+<div data-role="view" id="accionTarea" data-title="Tarea">
+    <!--     Send to back -->
+    <div data-role="navbar">
+        <span data-role="view-title"></span>
+        <a data-role="button" data-align="right" href="#tareas1">Regresar</a>
+    </div>
+    <!--     End -->
+    <!--     Send to list audios -->
+    <form class="col-md-12" id="formAdd">
+        <div class="row">
+            <div class="col-xs-6">
+                <label class="control-label font-cuerpo" for="">Grabar</label>
+                <button type="button" class="btn btn-default btn-block font-boton" onclick="addNotaVoz();"> <span class="fa fa-microphone" aria-hidden="true"></span> Nota de Voz</button>
+            </div>
+            <div class="col-xs-6" align="right" id="divEstado">
+                <label class="control-label font-cuerpo" for=""></label>
+                <div style="display: table;">
+                    <div style="display: table-cell; vertical-align: middle;" id="tag_estado" class="text-muted font-cuerpo">Pendiente</div>&nbsp&nbsp&nbsp<i id="txtestado" value="1" onclick="tag_estado();" class="fa fa-3x fa-rotate-180 fa-toggle-on text-muted toggler"></i>
+                </div>
+            </div>
+        </div>
+    </form>
+    <!--     End -->
+</div>
+<div data-role="view" id="listaAudios" data-title="Lista Audios" data-model="captureAudioModel">
+    <!--     Send to back -->
+    <div data-role="navbar">
+        <span data-role="view-title"></span>
+        <a data-role="button" data-align="right" href="#accionTarea">Regresar</a>
+    </div>
+    <!--     End -->
+    <div class="container">
+        </br>
+        <div class="row">
+            <div class="col-xs-6">
+                <button id="captureAudio" class="btn btn-default btn-block" data-bind="events: {click: capureAudio}"><span class="fa fa-microphone" aria-hidden="true"></span> Grabar Audio</button>
+            </div>
+            <div class="col-xs-6">
+                <button id="btnSendBS" onclick="f03enviarBackend();" class="btn btn-default btn-block" disabled><span class="fa fa-plus" aria-hidden="true"></span> Guardar</button>
+            </div>
+            <div id="media"></div>
+        </div>
+        <div id="newAudio" class="list-group">
+        </div>
+        <div id="f03viewAudios" data-role="listview" style="border-color:transparent;background-color:transparent;">
+            <div class="list-group">
+            </div>
+        </div>
+        </br>
+        <div id="divAccion" align="center"></div>
+    </div>
+    <!--     modal confirmación -->
+    <div id="dialog">
+        <p>¿Desea eliminar el audio de la tarea?</p>
+        <div class="row">
+            <div class="col-xs-6">
+                <button type="button" class="btn btn-default btn-block font-boton" onclick="$('#dialog').data('kendoWindow').close();">Cancelar</button>
+            </div>
+            <div class="col-xs-6">
+                <button id="accionAudio" type="button" class="btn btn-default btn-block font-boton" onclick="f03accionAudio();">Aceptar</button>
+            </div>
+        </div>
+    </div>
+    <!--     End -->
+</div>
+<!-- Template List Audios -->
+<script type="text/x-kendo-tmpl" id="f03TemLA">
+    <button type="button" class="list-group-item">
+        <a class="btn btn-default btn-xs" onclick="f03deleteAudio(#:idnota#)"><i class="fa fa-trash-o text-muted"></i></a> Audio: #:idnota#
+        <span style="float:right">
+        <input value="#:archivo#" id="archivo#:idnota#" type="hidden"></input>
+        <a class="btn btn-info btn-xs" onclick="playAudio(#:idnota#)"><i class="fa fa-play"></i></a>
+        <a class="btn btn-info btn-xs" onclick="pauseAudio(#:idnota#)"><i class="fa fa-pause"></i></a>
+        <a class="btn btn-info btn-xs" onclick="stopAudio(#:idnota#)"><i class="fa fa-stop"></i></a>
+    </span>
+    </button>
+</script>
+<!--End -->

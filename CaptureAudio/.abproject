@@ -1,11 +1,11 @@
 {
   "ProjectName": "CaptureAudio",
-  "ProjectGuid": "82177ccd-b66e-4853-a143-e080e33639c3",
+  "ProjectGuid": "38de7a01-cb6f-49f8-ac7c-f2d1e8adf9a0",
   "projectVersion": 1,
-  "AppIdentifier": "com.telerik.CaptureAudio",
-  "DisplayName": "CaptureAudio",
+  "AppIdentifier": "com.telerik.AppMovil",
+  "DisplayName": "App Movil",
   "Author": "",
-  "Description": "CaptureAudio",
+  "Description": "App Movil",
   "BundleVersion": "1.0",
   "AndroidVersionCode": "1",
   "iOSDeviceFamily": [
@@ -16,7 +16,20 @@
   "ProjectTypeGuids": "{070BCB52-5A75-4F8C-A973-144AF0EAFCC9}",
   "FrameworkVersion": "3.7.0",
   "AndroidPermissions": [
-    "android.permission.INTERNET"
+    "android.permission.ACCESS_COARSE_LOCATION",
+    "android.permission.ACCESS_FINE_LOCATION",
+    "android.permission.ACCESS_LOCATION_EXTRA_COMMANDS",
+    "android.permission.ACCESS_NETWORK_STATE",
+    "android.permission.CAMERA",
+    "android.permission.INTERNET",
+    "android.permission.MODIFY_AUDIO_SETTINGS",
+    "android.permission.READ_CONTACTS",
+    "android.permission.READ_PHONE_STATE",
+    "android.permission.RECEIVE_SMS",
+    "android.permission.RECORD_AUDIO",
+    "android.permission.VIBRATE",
+    "android.permission.WRITE_CONTACTS",
+    "android.permission.WRITE_EXTERNAL_STORAGE"
   ],
   "DeviceOrientations": [
     "Portrait",
@@ -32,14 +45,23 @@
     "ID_CAP_WEBBROWSERCOMPONENT"
   ],
   "WP8Requirements": [],
-  "WP8PublisherID": "{d4049fa1-0770-4eda-94cb-5162a67ddcbd}",
-  "WP8ProductID": "{e7632c5a-eaa3-42bc-aa05-e57a912f57d5}",
+  "WP8PublisherID": "{cb2ae2db-1fcb-4ea3-9fc1-6aa52651a82a}",
+  "WP8ProductID": "{6a012c1a-6f12-40a9-8d6d-39bbb0498ce1}",
   "WPSdk": "8.0",
-  "WP8PackageIdentityName": "1234Telerik.CaptureAudio",
+  "WP8PackageIdentityName": "1234Telerik.AppMovil",
   "WP8WindowsPublisherName": "CN=Telerik",
   "WP8SupportedResolutions": [
     "ID_RESOLUTION_WVGA",
     "ID_RESOLUTION_WXGA",
     "ID_RESOLUTION_HD720P"
+  ],
+  "CorePlugins": [
+    "org.apache.cordova.device",
+    "org.apache.cordova.file",
+    "org.apache.cordova.file-transfer",
+    "org.apache.cordova.media",
+    "org.apache.cordova.media-capture",
+    "org.apache.cordova.network-information",
+    "org.apache.cordova.splashscreen"
   ]
 }
