@@ -23,8 +23,6 @@ function id(element) {
                     capturesMsg += capturedFiles[i].fullPath;
                 }
                 f03newAudio(capturesMsg);
-                $("#media").text(capturesMsg);
-
                 if (e.preventDefault) {
                     e.preventDefault();
                 }
@@ -52,6 +50,8 @@ var isAudioPlaying = false;
 var mediaContent = null;
 // function play button
 function playAudio(ID) {
+    $("tag[type='divIsPlay']").hide();
+    $("#divAccion" + ID).show();
     //console.log("Play with the following parameters: idnota-> " + ID + " src-> " + document.getElementById("archivo" + ID).value);
     if ($.isNumeric(ID)) {
         var src = document.getElementById("archivo" + ID).value;
@@ -66,15 +66,16 @@ function playAudio(ID) {
     }
     mediaContent = new Media(src,
         function () {
-            $("#divAccion").html('<i class="fa fa-circle-o-notch fa-spin"></i> Play: ' + ID);
+            
+            $("#divAccion" + ID).html('<i class="fa fa-circle-o-notch fa-spin"></i> Play: ' + ID);
             //console.log("Media success"); // the media has been finished , set the flag to false, or handle any UI changes. 
         },
         function () {
-            $("#divAccion").html('<i class="fa fa-exclamation-triangle text-danger"></i> Error: ' + ID);
+            $("#divAccion" + ID).html('<i class="fa fa-exclamation-triangle text-danger"></i> Error: ' + ID);
             //console.log("Media error");
         },
         function () {
-            $("#divAccion").html('<i class="fa fa-refresh fa-spin"></i>');
+            $("#divAccion" + ID).html('<i class="fa fa-refresh fa-spin"></i>');
             //console.log("Media change");
         });
 
@@ -142,7 +143,6 @@ function f03enviarBackend() {
 }
 
 function upload(fileToUpload) {
-    var fileToUpload = $("#media").text();
     var apiKey = "9offhmwuw3dhu6vd";
     var el = new Everlive(apiKey);
     var options = {
@@ -154,17 +154,15 @@ function upload(fileToUpload) {
             var uploadedFileId = uploadResultArray[0].Id;
             var uploadedFileUri = uploadResultArray[0].Uri;
             uploadedFileUri = uploadedFileUri.replace("https", "http");
-            alert(uploadedFileUri);
             var newArchive = {
                 Name: "MyArchive",
                 FileUri: uploadedFileUri,
                 FileId: uploadedFileId
             };
             el.data("Archivos").create(newArchive, function (data) {
-                alert("Created an archive with Id: " + data.result.Id);
                 f03accionAudio("insert", uploadedFileUri, "");
             }, function (err) {
-                alert("Cannot create an archive" + JSON.stringify(err));
+                alert("Error al subir el archivo al backend service " + JSON.stringify(err));
             });
         },
         function (uploadError) {
@@ -194,7 +192,6 @@ function f03accionAudio(accion, FileUri, idAudio) {
     notificationElement.kendoNotification();
     var notificationWidget = notificationElement.data("kendoNotification");
     //End
-    alert(FileUri);
     accion == "insert" && $.ajax({
         type: "POST",
         url: 'http://www.ausa.com.pe/appmovil_test01/Notas/insert',
@@ -203,7 +200,6 @@ function f03accionAudio(accion, FileUri, idAudio) {
         },
         async: false,
         success: function (datos) {
-            alert("Se inserto en la tabla nota");
             var data = [];
             data = JSON.parse(datos);
             if (data[0].Column1 > 0) {
@@ -220,10 +216,10 @@ function f03accionAudio(accion, FileUri, idAudio) {
                         var data = [];
                         data = JSON.parse(datos);
                         //ajax para descargar, guardar en servidor y para actualizar el url en server ausa
-                        alert(idNota);
                         $.ajax({
                             type: "POST",
-                            url: "http://54.213.238.161/wsAusa/Notas/ReadNotaUrl",
+                            //url: "http://54.213.238.161/wsAusa/Notas/ReadNotaUrl",
+                            url: "http://www.ausa.com.pe/UploadAppMovil/Notas/ReadNotaUrl",
                             data: {
                                 not_str_archivo: FileUri,
                                 id: idNota
@@ -232,10 +228,10 @@ function f03accionAudio(accion, FileUri, idAudio) {
                             success: function (datos) {
                                 $('#f03viewAudios').data('kendoListView').dataSource.read();
                                 $('#f03viewAudios').data('kendoListView').refresh();
-                                notificationWidget.show("Se insertó correctamente la nota: "+idNota, "success");
+                                notificationWidget.show("Se insertó correctamente la nota: " + idNota, "success");
                             },
                             error: function () {
-                                notificationWidget.show("No se descargó", "danger");
+                                notificationWidget.show("No se descargó el archivo del backend service", "danger");
                                 valido = false;
                             }
                         });

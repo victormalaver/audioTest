@@ -40,7 +40,6 @@
             <div class="col-xs-6">
                 <button id="btnSendBS" onclick="f03enviarBackend();" class="btn btn-default btn-block" disabled><span class="fa fa-plus" aria-hidden="true"></span> Guardar</button>
             </div>
-            <div id="media"></div>
         </div>
         <div id="newAudio" class="list-group">
         </div>
@@ -49,7 +48,6 @@
             </div>
         </div>
         </br>
-        <div id="divAccion" align="center"></div>
     </div>
     <!--     modal confirmación -->
     <div id="dialog">
@@ -69,6 +67,7 @@
 <script type="text/x-kendo-tmpl" id="f03TemLA">
     <button type="button" class="list-group-item">
         <a class="btn btn-default btn-xs" onclick="f03deleteAudio(#:idnota#)"><i class="fa fa-trash-o text-muted"></i></a> Audio: #:idnota#
+        <tag id="divAccion#:idnota#" type="divIsPlay" align="center"></tag>
         <span style="float:right">
         <input value="#:archivo#" id="archivo#:idnota#" type="hidden"></input>
         <a class="btn btn-info btn-xs" onclick="playAudio(#:idnota#)"><i class="fa fa-play"></i></a>
