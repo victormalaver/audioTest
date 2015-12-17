@@ -12,7 +12,7 @@
         <div class="row">
             <div class="col-xs-6">
                 <label class="control-label font-cuerpo" for="">Grabar</label>
-                <button type="button" class="btn btn-default btn-block font-boton" onclick="addNotaVoz();"> <span class="fa fa-microphone" aria-hidden="true"></span> Nota de Voz</button>
+                <button type="button" class="btn btn-default btn-block font-boton" onclick="addNotaVoz();"><span class="fa fa-microphone" aria-hidden="true"></span> Nota de Voz</button>
             </div>
             <div class="col-xs-6" align="right" id="divEstado">
                 <label class="control-label font-cuerpo" for=""></label>
@@ -35,12 +35,13 @@
         </br>
         <div class="row">
             <div class="col-xs-6">
-                <button id="captureAudio" class="btn btn-default btn-block" data-bind="events: {click: capureAudio}"><span class="fa fa-microphone" aria-hidden="true"></span> Grabar Audio</button>
+                <button id="captureAudio" class="btn btn-default btn-block" data-bind="events: {click: capureAudio}"><span class="fa fa-microphone" aria-hidden="true"></span>&nbsp&nbsp&nbsp Grabar Audio</button>
             </div>
             <div class="col-xs-6">
-                <button id="btnSendBS" onclick="f03enviarBackend();" class="btn btn-default btn-block" disabled><span class="fa fa-plus" aria-hidden="true"></span> Guardar</button>
+                <button id="btnSendBS" onclick="f03enviarBackend();" class="btn btn-default btn-block" disabled><span class="fa fa-cloud" aria-hidden="true"></span>&nbsp&nbsp&nbsp Guardar</button>
             </div>
         </div>
+        </br>
         <div id="newAudio" class="list-group">
         </div>
         <div id="f03viewAudios" data-role="listview" style="border-color:transparent;background-color:transparent;">
@@ -51,13 +52,13 @@
     </div>
     <!--     modal confirmación -->
     <div id="dialog">
-        <p>¿Desea eliminar el audio de la tarea?</p>
+        <div id="divMensajeConf"></div>
         <div class="row">
             <div class="col-xs-6">
                 <button type="button" class="btn btn-default btn-block font-boton" onclick="$('#dialog').data('kendoWindow').close();">Cancelar</button>
             </div>
             <div class="col-xs-6">
-                <button id="accionAudio" type="button" class="btn btn-default btn-block font-boton" onclick="f03accionAudio();">Aceptar</button>
+                <button id="accionAudio" type="button" class="btn btn-default btn-block font-boton" onclick="">Aceptar</button>
             </div>
         </div>
     </div>
@@ -66,13 +67,11 @@
 <!-- Template List Audios -->
 <script type="text/x-kendo-tmpl" id="f03TemLA">
     <button type="button" class="list-group-item">
-        <a class="btn btn-default btn-xs" onclick="f03deleteAudio(#:idnota#)"><i class="fa fa-trash-o text-muted"></i></a> Audio: #:idnota#
+        <a class="btn btn-default btn-xs" onclick="f03deleteAudio(#:idnota#)"><i class="fa fa-trash-o text-muted"></i></a>&nbsp&nbsp&nbsp<i class="fa fa-cloud text-muted"></i> Audio: #:idnota#
         <tag id="divAccion#:idnota#" type="divIsPlay" align="center"></tag>
         <span style="float:right">
         <input value="#:archivo#" id="archivo#:idnota#" type="hidden"></input>
-        <a class="btn btn-info btn-xs" onclick="playAudio(#:idnota#)"><i class="fa fa-play"></i></a>
-        <a class="btn btn-info btn-xs" onclick="pauseAudio(#:idnota#)"><i class="fa fa-pause"></i></a>
-        <a class="btn btn-info btn-xs" onclick="stopAudio(#:idnota#)"><i class="fa fa-stop"></i></a>
+        <a class="btn btn-info btn-xs" onclick="playAudio(#:idnota#)"><i id="iconBtn#:idnota#" type="iconBtn" class="fa fa-play"></i></a>
     </span>
     </button>
 </script>

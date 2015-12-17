@@ -47,52 +47,64 @@ function addNotaVoz() {
 
 // on a global level
 var isAudioPlaying = false;
+var isAudioPause = 0;
 var mediaContent = null;
 // function play button
 function playAudio(ID) {
+    alert(ID);
     $("tag[type='divIsPlay']").hide();
     $("#divAccion" + ID).show();
+    $("tag[type='iconBtn']").attr("class", "fa fa-play");
     //console.log("Play with the following parameters: idnota-> " + ID + " src-> " + document.getElementById("archivo" + ID).value);
-    if ($.isNumeric(ID)) {
+    if (ID > 0) {
         var src = document.getElementById("archivo" + ID).value;
-        alert("Link Ausa: " + src);
+        //alert("Link Ausa: " + src);
         console.log(src);
     } else {
-        var src = ID;
+        var src = document.getElementById("archivo" + ID).value;
         alert("Path Local: " + src);
+        return;
     }
+
     if (isAudioPlaying) {
-        mediaContent.stop();
+        if (isAudioPause == ID) {
+            if ($("#iconBtn" + ID).attr("class") == "fa fa-pause") {
+                $("#iconBtn" + ID).attr("class", "fa fa-play");
+                isAudioPause = ID;
+                mediaContent.pause();
+                return;
+            } else {
+                $("#iconBtn" + ID).attr("class", "fa fa-pause");
+                isAudioPause = ID;
+                mediaContent.play();
+                return;
+            }
+        } else {
+            $("#iconBtn" + ID).attr("class", "fa fa-pause");
+            mediaContent.stop();
+        }
+    } else {
+        $("#iconBtn" + ID).attr("class", "fa fa-pause");
     }
     mediaContent = new Media(src,
         function () {
-            
-            $("#divAccion" + ID).html('<i class="fa fa-circle-o-notch fa-spin"></i> Play: ' + ID);
+            $("#iconBtn" + ID).attr("class", "fa fa-play");
+            $("#divAccion" + ID).html('<i class="fa fa-volume-off"></i>');
             //console.log("Media success"); // the media has been finished , set the flag to false, or handle any UI changes. 
         },
         function () {
-            $("#divAccion" + ID).html('<i class="fa fa-exclamation-triangle text-danger"></i> Error: ' + ID);
+            $("#divAccion" + ID).html('<i class="fa fa-exclamation-triangle text-danger"></i>');
             //console.log("Media error");
         },
         function () {
-            $("#divAccion" + ID).html('<i class="fa fa-refresh fa-spin"></i>');
+            //$("#iconBtn" + ID).attr("class", "fa fa-pause");
+            $("#divAccion" + ID).html('<i class="fa fa-volume-up"></i>');
             //console.log("Media change");
         });
 
     mediaContent.play();
     isAudioPlaying = true;
-}
-
-function pauseAudio(ID) {
-    //alert("pause with the following parameters: idnota-> " + ID + " src-> " + document.getElementById("archivo" + ID).value);
-    mediaContent.pause();
-    $("#divAccion").html('<i class="fa fa-pause"></i> Pause: ' + ID);
-}
-
-function stopAudio(ID) {
-    //alert("stop with the following parameters: idnota-> " + ID + " src-> " + document.getElementById("archivo" + ID).value);
-    mediaContent.stop();
-    $("#divAccion").html('<i class="fa fa-stop"></i> Stop: ' + ID);
+    isAudioPause = ID;
 }
 
 function f03getAudios() {
@@ -103,7 +115,7 @@ function f03getAudios() {
                 dataType: "json",
                 type: "post",
                 data: {
-                    txtid: 1
+                    txtid: 1 // idTarea
                 }
             }
         }
@@ -131,9 +143,8 @@ function f03enviarBackend() {
     var notificationWidget = notificationElement.data("kendoNotification");
     //End
 
-
     //Iteramos los audios grabados en la memoria de nuestros smartphone, para hacer la carga de audios en el backend services
-
+    kendo.ui.progress($("#listaAudios"), true);
     $("a[type='newAudio']").each(function (index) {
         var fileToUpload = $(this).attr("value"); //capturedFiles[0].fullPath;
         upload(fileToUpload);
@@ -160,7 +171,7 @@ function upload(fileToUpload) {
                 FileId: uploadedFileId
             };
             el.data("Archivos").create(newArchive, function (data) {
-                f03accionAudio("insert", uploadedFileUri, "");
+                f03accionAudio("insert", uploadedFileUri, "", data.result.Id);
             }, function (err) {
                 alert("Error al subir el archivo al backend service " + JSON.stringify(err));
             });
@@ -169,24 +180,42 @@ function upload(fileToUpload) {
             alert(JSON.stringify(uploadError));
         });
 }
+var toquen = 0;
 
 function f03newAudio(archivo) {
-        $("#newAudio").append('<button type="button" class="list-group-item"><a class="btn btn-default btn-xs" type="newAudio" value="' + archivo + '" ><i class="fa fa-trash-o text-muted"></i></a> Nuevo Audio<span style="float:right"><a class="btn btn-info btn-xs" onclick="playAudio(' + archivo + ')"><i class="fa fa-play"></i></a>&nbsp<a class="btn btn-info btn-xs"><i class="fa fa-pause"></i></a>&nbsp<a class="btn btn-info btn-xs"><i class="fa fa-stop"></i></a></span></button>')
+
+        //$("#newAudio").append('<button type="button" class="list-group-item"><a class="btn btn-default btn-xs" type="newAudio" value="' + archivo + '" ><i class="fa fa-trash-o text-muted"></i></a> Nuevo Audio<span style="float:right"><a class="btn btn-info btn-xs" onclick="playAudio('archivo')"><i class="fa fa-play"></i></a></span></button>')
+        toquen = toquen + 1;
+        var idnota = "local" + toquen;
+        $("#newAudio").append('<button type="button" class="list-group-item" id="btn' + idnota + '"><a class="btn btn-default btn-xs" type="newAudio" value="' + archivo + '"><i class="fa fa-trash-o text-muted"></i></a>&nbsp&nbsp&nbsp<i class="fa fa-mobile text-muted"></i> Nuevo Audio: ' + idnota + '<tag id="divAccion' + idnota + '" type="divIsPlay" align="center"></tag><span style="float:right"><input value="' + archivo + '" id="archivo' + idnota + '" type="hidden"></input><a class="btn btn-info btn-xs" onclick="playAudio(' + "'" + idnota + "'" + ')"><i id="iconBtn' + idnota + '" type="iconBtn" class="fa fa-play"></i></a></span></button>');
+
         $("#btnSendBS").removeAttr("disabled");
+        alert(archivo);
     }
     //Delete new audio
 $(document).on("click", "a[type='newAudio']", function () {
-    $(this).parent().remove();
+    //$(this).parent().remove();
+    idnota = $(this).parent().attr("id").replace("btn", "");
+    $("#dialog").data("kendoWindow").open();
+    $("#dialog").data("kendoWindow").center();
+    $("#divMensajeConf").text("¿Desea eliminar el audio " + idnota + " de la tarea?");
+    $("#accionAudio").attr('onclick', 'f03deleteAudio( idnota )');
 });
 
 function f03deleteAudio(idAudio) {
-    $("#dialog").data("kendoWindow").center();
-    $("#dialog").data("kendoWindow").open();
-    $("#accionAudio").attr("onclick", "f03accionAudio('ndelete'," + "" + idAudio);
-    console.log("Eliminar audio: " + idAudio);
+    if ($.isNumeric(idAudio)) {
+        $("#dialog").data("kendoWindow").open();
+        $("#dialog").data("kendoWindow").center();
+        $("#divMensajeConf").text("¿Desea eliminar el audio " + idAudio + " de la tarea?");
+        $("#accionAudio").attr('onclick', 'f03accionAudio("ndelete","",' + idAudio + ',"")');
+    } else {
+        alert(idAudio);
+        alert($("#btn" + idAudio).attr("id"));
+        $("#btn" + idAudio).remove();
+    }
 }
 
-function f03accionAudio(accion, FileUri, idAudio) {
+function f03accionAudio(accion, FileUri, idAudio, idAudioBackend) {
     //Notificaciones
     var notificationElement = $("#notification");
     notificationElement.kendoNotification();
@@ -219,19 +248,43 @@ function f03accionAudio(accion, FileUri, idAudio) {
                         $.ajax({
                             type: "POST",
                             //url: "http://54.213.238.161/wsAusa/Notas/ReadNotaUrl",
-                            url: "http://www.ausa.com.pe/UploadAppMovil/Notas/ReadNotaUrl",
+                            url: "http://www.ausa.com.pe/UploadAppMovil/Notas/ReadNotaUrl/",
                             data: {
-                                not_str_archivo: FileUri,
-                                id: idNota
+                                id: idNota,
+                                url: FileUri,
+                                tipo: 1,
+                                subPath: 1
                             },
                             async: false,
                             success: function (datos) {
-                                $('#f03viewAudios').data('kendoListView').dataSource.read();
-                                $('#f03viewAudios').data('kendoListView').refresh();
-                                notificationWidget.show("Se insertó correctamente la nota: " + idNota, "success");
+                                kendo.ui.progress($("#listaAudios"), false);
+                                if (parseInt(datos) == 0) {
+                                    // $('#f03viewAudios').data('kendoListView').dataSource.read();
+                                    // $('#f03viewAudios').data('kendoListView').refresh();
+                                    notificationWidget.show("Se insertó correctamente la nota: " + idNota, "success");
+
+                                    //Para borrar del backend service
+                                    var el = new Everlive('9offhmwuw3dhu6vd');
+                                    var data = el.data('Archivos');
+                                    data.destroySingle({
+                                            Id: idAudioBackend
+                                        },
+                                        function () {
+                                            //notificationWidget.show("Eliminado correctamente del backend service", "success");
+                                        },
+                                        function (error) {
+                                            notificationWidget.show(JSON.stringify(error), "error");
+                                        });
+
+                                } else {
+                                    notificationWidget.show("No se descargó el archivo del backend service", "danger");
+                                };
+
                             },
                             error: function () {
-                                notificationWidget.show("No se descargó el archivo del backend service", "danger");
+                                kendo.ui.progress($("#listaAudios"), true);
+                                alert(datos + " -error");
+                                notificationWidget.show("El servicio no está disponible", "danger");
                                 valido = false;
                             }
                         });
@@ -249,21 +302,31 @@ function f03accionAudio(accion, FileUri, idAudio) {
             notificationWidget.show("No se puede establecer la conexión al servicio", "danger");
         }
     });
+
     accion == "ndelete" && $.ajax({
         type: "POST",
         url: 'http://www.ausa.com.pe/appmovil_test01/Relaciones/ndelete',
         data: {
-            txtid: idAudio
+            txtnota: idAudio,
+            txttarea: 1
         },
         async: false,
         success: function (datos) {
+            alert(datos);
             var data = [];
             data = JSON.parse(datos);
-            notificationWidget.show("Se eliminó la tarea", "success");
-            $('#f03viewAudios').data('kendoListView').dataSource.read();
-            $('#f03viewAudios').data('kendoListView').refresh();
+            if (parseInt(data[0].Ejecucion) == 0) {
+                notificationWidget.show("Se eliminó la nota " + idAudio + " de tarea", "success");
+                $('#f03viewAudios').data('kendoListView').dataSource.read();
+                $('#f03viewAudios').data('kendoListView').refresh();
+
+            } else {
+                notificationWidget.show("No se eliminó la nota correctamente", "danger");
+            }
+
         },
         error: function () {
+            alert("Error en el servicio");
             notificationWidget.show("No se puede establecer la conexión al servicio", "danger");
             valido = false;
         }
