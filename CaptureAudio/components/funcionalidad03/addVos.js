@@ -51,21 +51,20 @@ var isAudioPause = 0;
 var mediaContent = null;
 // function play button
 function playAudio(ID) {
-    alert(ID);
     $("tag[type='divIsPlay']").hide();
     $("#divAccion" + ID).show();
     $("tag[type='iconBtn']").attr("class", "fa fa-play");
     //console.log("Play with the following parameters: idnota-> " + ID + " src-> " + document.getElementById("archivo" + ID).value);
+    var src = document.getElementById("archivo" + ID).value;
     if (ID > 0) {
-        var src = document.getElementById("archivo" + ID).value;
         //alert("Link Ausa: " + src);
-        console.log(src);
     } else {
-        var src = document.getElementById("archivo" + ID).value;
-        alert("Path Local: " + src);
-        return;
+        src = src.replace("file:/","");
+        src = src.replace("3gpp","wav");
+        //alert("Path Local: " + src);    
+        //src = '/android_asset/www/' + src;
     }
-
+    alert(src);
     if (isAudioPlaying) {
         if (isAudioPause == ID) {
             if ($("#iconBtn" + ID).attr("class") == "fa fa-pause") {
@@ -181,16 +180,13 @@ function upload(fileToUpload) {
         });
 }
 var toquen = 0;
-
 function f03newAudio(archivo) {
-
         //$("#newAudio").append('<button type="button" class="list-group-item"><a class="btn btn-default btn-xs" type="newAudio" value="' + archivo + '" ><i class="fa fa-trash-o text-muted"></i></a> Nuevo Audio<span style="float:right"><a class="btn btn-info btn-xs" onclick="playAudio('archivo')"><i class="fa fa-play"></i></a></span></button>')
         toquen = toquen + 1;
         var idnota = "local" + toquen;
-        $("#newAudio").append('<button type="button" class="list-group-item" id="btn' + idnota + '"><a class="btn btn-default btn-xs" type="newAudio" value="' + archivo + '"><i class="fa fa-trash-o text-muted"></i></a>&nbsp&nbsp&nbsp<i class="fa fa-mobile text-muted"></i> Nuevo Audio: ' + idnota + '<tag id="divAccion' + idnota + '" type="divIsPlay" align="center"></tag><span style="float:right"><input value="' + archivo + '" id="archivo' + idnota + '" type="hidden"></input><a class="btn btn-info btn-xs" onclick="playAudio(' + "'" + idnota + "'" + ')"><i id="iconBtn' + idnota + '" type="iconBtn" class="fa fa-play"></i></a></span></button>');
+        $("#newAudio").append('<button type="button" class="list-group-item" id="btn' + idnota + '"><a class="btn btn-default btn-xs" type="newAudio" value="' + archivo + '"><i class="fa fa-trash-o text-muted"></i></a>&nbsp&nbsp&nbsp<i class="fa fa-hdd-o text-muted"></i> Nuevo Audio: ' + idnota + '<tag id="divAccion' + idnota + '" type="divIsPlay" align="center"></tag><span style="float:right"><input value="' + archivo + '" id="archivo' + idnota + '" type="hidden"></input><a class="btn btn-info btn-xs" onclick="playAudio(' + "'" + idnota + "'" + ')"><i id="iconBtn' + idnota + '" type="iconBtn" class="fa fa-play"></i></a></span></button>');
 
         $("#btnSendBS").removeAttr("disabled");
-        alert(archivo);
     }
     //Delete new audio
 $(document).on("click", "a[type='newAudio']", function () {
@@ -209,9 +205,11 @@ function f03deleteAudio(idAudio) {
         $("#divMensajeConf").text("¿Desea eliminar el audio " + idAudio + " de la tarea?");
         $("#accionAudio").attr('onclick', 'f03accionAudio("ndelete","",' + idAudio + ',"")');
     } else {
-        alert(idAudio);
-        alert($("#btn" + idAudio).attr("id"));
+        $('#dialog').data('kendoWindow').close();
         $("#btn" + idAudio).remove();
+        if( $('a[type="newAudio"]').length == 0){
+            $("#btnSendBS").attr("disabled", "disabled");
+        }
     }
 }
 
@@ -248,7 +246,7 @@ function f03accionAudio(accion, FileUri, idAudio, idAudioBackend) {
                         $.ajax({
                             type: "POST",
                             //url: "http://54.213.238.161/wsAusa/Notas/ReadNotaUrl",
-                            url: "http://www.ausa.com.pe/UploadAppMovil/Notas/ReadNotaUrl/",
+                            url: "http://www.ausa.com.pe/appmovil_test01/Upload/UploadUrl",
                             data: {
                                 id: idNota,
                                 url: FileUri,
@@ -263,7 +261,7 @@ function f03accionAudio(accion, FileUri, idAudio, idAudioBackend) {
                                     // $('#f03viewAudios').data('kendoListView').refresh();
                                     notificationWidget.show("Se insertó correctamente la nota: " + idNota, "success");
 
-                                    //Para borrar del backend service
+                                    /*Para borrar del backend service
                                     var el = new Everlive('9offhmwuw3dhu6vd');
                                     var data = el.data('Archivos');
                                     data.destroySingle({
@@ -274,16 +272,14 @@ function f03accionAudio(accion, FileUri, idAudio, idAudioBackend) {
                                         },
                                         function (error) {
                                             notificationWidget.show(JSON.stringify(error), "error");
-                                        });
+                                        });*/
 
                                 } else {
                                     notificationWidget.show("No se descargó el archivo del backend service", "danger");
                                 };
-
                             },
                             error: function () {
                                 kendo.ui.progress($("#listaAudios"), true);
-                                alert(datos + " -error");
                                 notificationWidget.show("El servicio no está disponible", "danger");
                                 valido = false;
                             }
@@ -312,7 +308,6 @@ function f03accionAudio(accion, FileUri, idAudio, idAudioBackend) {
         },
         async: false,
         success: function (datos) {
-            alert(datos);
             var data = [];
             data = JSON.parse(datos);
             if (parseInt(data[0].Ejecucion) == 0) {
@@ -323,10 +318,9 @@ function f03accionAudio(accion, FileUri, idAudio, idAudioBackend) {
             } else {
                 notificationWidget.show("No se eliminó la nota correctamente", "danger");
             }
-
+			$('#dialog').data('kendoWindow').close();
         },
         error: function () {
-            alert("Error en el servicio");
             notificationWidget.show("No se puede establecer la conexión al servicio", "danger");
             valido = false;
         }
